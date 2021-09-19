@@ -1,18 +1,16 @@
 import numpy as np
 import pandas as pd
-import csv
 import matplotlib.pyplot as plt
-from matplotlib.dates import DateFormatter
 #from matplotlib import style
 import seaborn as sns
 sns.set(style= "darkgrid")
 import sqlite3 as sql
 
 #importing data
-apple_df = pd.read_csv("/Users/neha_gupta/APPLE.csv",
+apple_df = pd.read_csv("APPLE.csv",
                         index_col=0,
                         parse_dates=['Date'])
-conn = sql.connect("/Users/neha_gupta/apple.db")
+conn = sql.connect("apple.db")
 stock_data = pd.read_sql_query("SELECT * from apple", conn)
 conn.close()
 print(apple_df.head())
