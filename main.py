@@ -1,13 +1,12 @@
 import numpy as np
 import pandas as pd
-import cmd
+import csv
 import matplotlib.pyplot as plt
 from matplotlib.dates import DateFormatter
 #from matplotlib import style
 import seaborn as sns
 sns.set(style= "darkgrid")
 import sqlite3 as sql
-
 
 #importing data
 apple_df = pd.read_csv("/Users/neha_gupta/APPLE.csv",
@@ -32,11 +31,26 @@ print(stock_data.shape)
 print(stock_data.dtypes)
 print(stock_data.describe(include="all"))
 
-#Grouping and sorting
+#Grouping
 app_le = apple_df.groupby(['Open', 'High'])['Close'].mean().round(2)
 pd.set_option('display.max_rows', None)
 print('app_le range')
 print(app_le)
+
+#Sorting
+ap_st = apple_df.groupby(['Open'])['Low'].mean().sort_values(ascending=False).round(2)
+print('Apple\'s open and low')
+print(ap_st)
+
+#Replacing and cleaning
+apple_df['Close'].fillna("No", inplace = True)
+apple_df['Close'].value_counts()
+print('Values missing in Cleaning up:')
+print(apple_df['Close'].isnull().sum())
+
+#Concatinating
+openandclose = pd.concat([ap_st,app_le],axis=1)
+print (openandclose.info())
 
 apple_df['Adj Close'].replace(to_replace = ['Adjust Close'],value = 'Adjust Close', inplace = True)
 apple_df['Adj Close'].value_counts()
@@ -49,18 +63,12 @@ Percentage = (Total/apple_df.isnull().count()).sort_values(ascending=False)
 null = pd.concat([Total, Percentage], axis=1, keys=['Total','Percentages'])
 null.head()
 print(null)
-#Replacing values
-
-apple_df['Close'].fillna("No", inplace = True)
-apple_df['Close'].value_counts()
 
 #finding avg prices
 high_prices = apple_df.loc[:,'High'].to_numpy()
 low_prices = apple_df.loc[:,'Low'].to_numpy()
 avg_prices = (high_prices + low_prices) / 2.0
 print("Size of the data : ", len(avg_prices))
-
-
 
 
 #creating & converting to a numpy array
@@ -70,7 +78,7 @@ print(apple_df.tail())
 x = np.array(apple_df.drop(["Prediction"], 1))[:]
 print(x)
 
-#creating and converting new y o get all target values
+#creating and converting new y get all target values
 y = np.array(apple_df["Prediction"])[:]
 print(y)
 
@@ -78,7 +86,7 @@ print(y)
 g = sns.pairplot(apple_df, plot_kws={'color':'green'})
 plt.show()
 
-#visualising 3 data data graphically
+#visualising 3 data graphically
 g = sns.pairplot(apple_df[['Open','High','Low']], plot_kws={'color':'#bddc0e'})
 plt.show()
 g = sns.pairplot(apple_df[['Open','High','Low', 'Close']], hue = 'Close')
