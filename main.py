@@ -17,6 +17,7 @@ print(apple_df.head())
 print("--------------------------------------------------------------")
 print(stock_data.head())
 print("--------------------------------------------------------------")
+
 # Describing the Shape of the Data
 print("Apple Stock Details:")
 print(apple_df.shape)
