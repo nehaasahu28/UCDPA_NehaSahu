@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-#from matplotlib import style
+
 import seaborn as sns
 sns.set(style= "darkgrid")
 import sqlite3 as sql
@@ -110,3 +110,4 @@ plt.show()
 
 apple_df = apple_df[["Close"]]
 print(apple_df.head())
+
